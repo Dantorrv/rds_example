@@ -7,16 +7,24 @@ passworddb = 'basededatos123'
 def connect2SQL():
 
     try:
-        pymysql.connect(
-
+        print("Connection was successful")
+        obj_connect = pymysql.connect(
             host = endpoint,
             user = userdb,
             password = passworddb
         )
+        return obj_connect
 
-        print("Connection was successful")
+        
 
     except Exception as err:
         print("error:", err)
+        obj_connect = None
+        return obj_connect
 
-connect2SQL()
+def add_user(id,first_name,last_name,birthday):
+    instruction_sql = "INSERT INTO db_users.Users (id, first_name, last_name, birthday) VALUES("+id+",'"+first_name+"','"+last_name+"','"+birthday+"')"
+    obj_connect = connect2SQL()
+    obj_connect.cursor().execute(instruction_sql)
+    obj_connect.commit()
+    print("user added")    
